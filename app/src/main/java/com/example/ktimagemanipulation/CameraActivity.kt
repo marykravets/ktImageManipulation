@@ -13,7 +13,7 @@ open class CameraActivity : Activity() {
             return ArrayList<CameraBridgeViewBase?>()
         }
 
-    protected fun onCameraPermissionGranted() {
+    private fun onCameraPermissionGranted() {
         val cameraViews = cameraViewList
         if (cameraViews != null) {
             for (cameraBridgeViewBase in cameraViews) {
@@ -40,7 +40,7 @@ open class CameraActivity : Activity() {
         permissions: Array<String>,
         grantResults: IntArray
     ) {
-        if (requestCode == 200 && grantResults.size > 0 && grantResults[0] == 0) {
+        if (requestCode == 200 && grantResults.isNotEmpty() && grantResults[0] == 0) {
             onCameraPermissionGranted()
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)

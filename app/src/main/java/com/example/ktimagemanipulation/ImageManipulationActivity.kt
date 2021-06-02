@@ -191,7 +191,7 @@ class ImageManipulationActivity : CameraActivity(), CvCameraViewListener2 {
         ranges = MatOfFloat(0f, 256f)
         white = Scalar.all(255.0)
         histSize = MatOfInt(histSizeNum)
-        channels = arrayOf(org.opencv.core.MatOfInt(0), MatOfInt(1), MatOfInt(2))
+        channels = arrayOf(MatOfInt(0), MatOfInt(1), MatOfInt(2))
         mat0 = Mat()
         sepiaKernel = Mat(4, 4, CvType.CV_32F)
         sepiaKernel.put(0, 0, 0.189, 0.769, 0.393, 0.0)
