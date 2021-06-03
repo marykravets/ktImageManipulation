@@ -28,8 +28,8 @@ class ImageManipulationActivity : CameraActivity(), CvCameraViewListener2, View.
     private var itemPreviewPixelize: MenuItem? = null
     private var itemPreviewPosterize: MenuItem? = null
     private var openCvCameraView: CameraBridgeViewBase? = null
-
     private var isFullsize: Boolean = false
+
     private lateinit var intermediateMat: Mat
     private lateinit var sepiaKernel: Mat
     private lateinit var ranges: MatOfFloat
