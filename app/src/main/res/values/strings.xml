@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">ktImageManipulation</string>
+
+    <!--menu-->
+    <string name="fullsize">Full size</string>
+    <string name="preview_rgba">Preview RGBA</string>
+    <string name="histograms">Histograms</string>
+    <string name="canny">Canny</string>
+    <string name="sepia">Sepia</string>
+    <string name="sobel">Sobel</string>
+    <string name="zoom">Zoom</string>
+    <string name="pixelize">Pixelize</string>
+    <string name="posterize">Posterize</string>
+
 </resources>

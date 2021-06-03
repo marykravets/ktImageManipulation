@@ -1,6 +1,5 @@
 package com.example.ktimagemanipulation
 
-
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -19,7 +18,7 @@ import org.opencv.core.*
 import org.opencv.core.CvType.CV_8U
 import org.opencv.imgproc.Imgproc.*
 
-class ImageManipulationActivity : CameraActivity(), CvCameraViewListener2 {
+class ImageManipulationActivity : CameraActivity(), CvCameraViewListener2, View.OnClickListener {
     private var itemPreviewRGBA: MenuItem? = null
     private var itemPreviewHist: MenuItem? = null
     private var itemPreviewCanny: MenuItem? = null
@@ -30,6 +29,7 @@ class ImageManipulationActivity : CameraActivity(), CvCameraViewListener2 {
     private var itemPreviewPosterize: MenuItem? = null
     private var openCvCameraView: CameraBridgeViewBase? = null
 
+    private var isFullsize: Boolean = false
     private lateinit var intermediateMat: Mat
     private lateinit var sepiaKernel: Mat
     private lateinit var ranges: MatOfFloat
@@ -124,6 +124,7 @@ class ImageManipulationActivity : CameraActivity(), CvCameraViewListener2 {
         openCvCameraView?.let {
             it.visibility = CameraBridgeViewBase.VISIBLE
             it.setCvCameraViewListener(this)
+            it.setOnClickListener(this)
         }
     }
 
@@ -150,14 +151,14 @@ class ImageManipulationActivity : CameraActivity(), CvCameraViewListener2 {
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         Log.i(TAG, "called onCreateOptionsMenu")
-        itemPreviewRGBA = menu.add("Preview RGBA")
-        itemPreviewHist = menu.add("Histograms")
-        itemPreviewCanny = menu.add("Canny")
-        itemPreviewSepia = menu.add("Sepia")
-        itemPreviewSobel = menu.add("Sobel")
-        itemPreviewZoom = menu.add("Zoom")
-        itemPreviewPixelize = menu.add("Pixelize")
-        itemPreviewPosterize = menu.add("Posterize")
+        itemPreviewRGBA = menu.add(resources.getString(R.string.preview_rgba))
+        itemPreviewHist = menu.add(resources.getString(R.string.histograms))
+        itemPreviewCanny = menu.add(resources.getString(R.string.canny))
+        itemPreviewSepia = menu.add(resources.getString(R.string.sepia))
+        itemPreviewSobel = menu.add(resources.getString(R.string.sobel))
+        itemPreviewZoom = menu.add(resources.getString(R.string.zoom))
+        itemPreviewPixelize = menu.add(resources.getString(R.string.pixelize))
+        itemPreviewPosterize = menu.add(resources.getString(R.string.posterize))
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -210,10 +211,18 @@ class ImageManipulationActivity : CameraActivity(), CvCameraViewListener2 {
         val sizeRgba = rgba.size()
         val rows = sizeRgba.height.toInt()
         val cols = sizeRgba.width.toInt()
-        val left = cols / 8
-        val top = rows / 8
-        val width = cols * 3 / 4
-        val height = rows * 3 / 4
+        var left = cols / 8
+        var top = rows / 8
+        var width = cols * 3 / 4
+        var height = rows * 3 / 4
+
+        if (isFullsize) {
+            left = 0
+            top = 0
+            width = cols
+            height = rows
+        }
+
         when (viewMode) {
             VIEW_MODE_RGBA -> {
             }
@@ -394,5 +403,9 @@ class ImageManipulationActivity : CameraActivity(), CvCameraViewListener2 {
             line(rgba, p1, p2, colorsHue[h], thickness)
             h++
         }
+    }
+
+    override fun onClick(v: View?) {
+        isFullsize = !isFullsize
     }
 }
