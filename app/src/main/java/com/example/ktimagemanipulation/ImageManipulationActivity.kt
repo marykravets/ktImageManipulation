@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
 import android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
 import android.widget.Toolbar
 import org.opencv.android.BaseLoaderCallback
@@ -114,6 +115,7 @@ class ImageManipulationActivity : CameraActivity(), CvCameraViewListener2, View.
         Log.i(TAG, "called onCreate")
         super.onCreate(savedInstanceState)
 
+        window.setFlags(FLAG_FULLSCREEN, FLAG_FULLSCREEN);
         window.addFlags(FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_img_manipulation)
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
@@ -260,7 +262,7 @@ class ImageManipulationActivity : CameraActivity(), CvCameraViewListener2, View.
     private fun viewModeCanny(rgba: Mat, top: Int, left: Int, width: Int, height: Int) {
         val rgbaInnerWindow = rgba.submat(top, top + height, left, left + width)
         Canny(rgbaInnerWindow, intermediateMat, 80.0, 90.0)
-        cvtColor(intermediateMat, rgbaInnerWindow, COLOR_GRAY2BGRA, 4)
+        cvtColor(intermediateMat, rgbaInnerWindow, THRESH_BINARY_INV, 4)
         rgbaInnerWindow.release()
     }
 

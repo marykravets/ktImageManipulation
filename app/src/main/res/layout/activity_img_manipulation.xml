@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <Toolbar android:id="@+id/toolbar"
-        android:titleTextColor="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize" />
+    android:padding="0dp"
+    android:layout_margin="0dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <org.opencv.android.JavaCameraView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/image_manipulations_activity_surface_view" />
+        android:padding="0dp"
+        android:layout_margin="0dp"
+        android:id="@+id/image_manipulations_activity_surface_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
 
-</LinearLayout>
+    <Toolbar android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?android:attr/actionBarSize"
+        android:background="@color/toolbar_bg"
+        android:titleTextColor="@color/toolbar_text_color"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ktImageManipulation</string>
+    <string name="app_name">ktImgManipulation</string>
 
     <!--menu-->
     <string name="fullsize">Full size</string>
