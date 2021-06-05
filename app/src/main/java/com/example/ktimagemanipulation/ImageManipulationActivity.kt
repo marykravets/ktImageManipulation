@@ -1,12 +1,18 @@
 package com.example.ktimagemanipulation
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore.ACTION_VIDEO_CAPTURE
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN
 import android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
+import android.widget.Button
+import android.widget.Toast
+import android.widget.Toast.LENGTH_LONG
 import android.widget.Toolbar
 import org.opencv.android.BaseLoaderCallback
 import org.opencv.android.CameraBridgeViewBase
@@ -39,6 +45,7 @@ class ImageManipulationActivity : CameraActivity(), CvCameraViewListener2, View.
     private lateinit var histSize: MatOfInt
     private lateinit var channels: Array<MatOfInt>
 
+    private val videoCapture = 101
     private val p1: Point = Point()
     private val p2: Point = Point()
     private val size0: Size = Size()
@@ -120,6 +127,9 @@ class ImageManipulationActivity : CameraActivity(), CvCameraViewListener2, View.
         setContentView(R.layout.activity_img_manipulation)
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setActionBar(toolbar)
+
+        val record = findViewById<View>(R.id.recordButton) as Button
+        record.setOnClickListener(this)
 
         openCvCameraView = findViewById(R.id.image_manipulations_activity_surface_view)
 
@@ -408,6 +418,47 @@ class ImageManipulationActivity : CameraActivity(), CvCameraViewListener2, View.
     }
 
     override fun onClick(v: View?) {
-        isFullsize = !isFullsize
+        when (v?.id) {
+            R.id.recordButton -> {
+                val intent = Intent(ACTION_VIDEO_CAPTURE)
+                startActivityForResult(intent, videoCapture)
+            }
+            else -> isFullsize = !isFullsize
+        }
+    }
+
+    override fun onActivityResult(
+        requestCode: Int,
+        resultCode: Int, data: Intent?
+    ) {
+        if (data == null) {
+            Toast.makeText(
+                this, "Data is null",
+                LENGTH_LONG
+            ).show()
+            return
+        }
+
+        val videoUri: Uri? = data.data
+        if (requestCode == videoCapture) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(
+                    this, """
+                     Video saved to:
+                     $videoUri
+                     """.trimIndent(), LENGTH_LONG
+                ).show()
+            } else if (resultCode == RESULT_CANCELED) {
+                Toast.makeText(
+                    this, "Video recording cancelled",
+                    LENGTH_LONG
+                ).show()
+            } else {
+                Toast.makeText(
+                    this, "Failed to record video",
+                    LENGTH_LONG
+                ).show()
+            }
+        }
     }
 }
